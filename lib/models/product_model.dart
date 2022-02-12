@@ -10,7 +10,7 @@ class Product extends Equatable {
   final int productid;
   final String productdescription;
   double productprice;
-  final DateTime productcreatedAt;
+  // final DateTime productcreatedAt;
 
   Product({
     // required this.uproductid,
@@ -19,7 +19,7 @@ class Product extends Equatable {
     // this.productid = DateTime.now().toString(),
     required this.productdescription,
     this.productprice = 0,
-    required this.productcreatedAt,
+    // required this.productcreatedAt,
   });
 
   @override
@@ -29,7 +29,7 @@ class Product extends Equatable {
       productid,
       productdescription,
       productprice,
-      productcreatedAt
+      // productcreatedAt
     ]; //uproductid
   }
 
@@ -39,7 +39,7 @@ class Product extends Equatable {
     int? productid,
     String? productdescription,
     double? productprice,
-    DateTime? productcreatedAt,
+    // DateTime? productcreatedAt,
   }) {
     return Product(
         // uproductid: uproductid ?? this.uproductid,
@@ -47,7 +47,8 @@ class Product extends Equatable {
         productid: productid ?? this.productid,
         productdescription: productdescription ?? this.productdescription,
         productprice: productprice ?? this.productprice,
-        productcreatedAt: productcreatedAt ?? this.productcreatedAt);
+        // // // productcreatedAt: productcreatedAt ?? this.productcreatedAt
+        );
   }
 
   Map<String, dynamic> toMap() {
@@ -57,7 +58,7 @@ class Product extends Equatable {
       'productid': productid,
       'productdescription': productdescription,
       'productprice': productprice,
-      'productcreatedAt': productcreatedAt,
+      // // 'productcreatedAt': productcreatedAt,
     };
   }
 
@@ -68,7 +69,8 @@ class Product extends Equatable {
         productid: snap['productid'],
         productdescription: snap['productdescription'],
         productprice: snap['productprice'],
-        productcreatedAt: snap['productcreatedAt']);
+        // // productcreatedAt: snap['productcreatedAt']
+        );
   }
   String toJson() => json.encode(toMap());
 
@@ -85,7 +87,7 @@ class Product extends Equatable {
       productdescription: 'Lorem ipsum inscapeduc lorem lorem',
       productprice: 500,
       productname: 'Laundry',
-      productcreatedAt: DateTime.now(),
+      // productcreatedAt: DateTime.now(),
     ),
     Product(
       // uproductid: '1',
@@ -93,7 +95,7 @@ class Product extends Equatable {
       productdescription: 'Lorem ipsum inscapeduc lorem lorem',
       productprice: 300,
       productname: 'Utensils',
-      productcreatedAt: DateTime.now(),
+      // productcreatedAt: DateTime.now(),
     ),
     Product(
       // uproductid: '2',
@@ -101,7 +103,7 @@ class Product extends Equatable {
       productdescription: 'Lorem ipsum inscapeduc lorem lorem',
       productprice: 250,
       productname: 'House Cleaning',
-      productcreatedAt: DateTime.now(),
+      // productcreatedAt: DateTime.now(),
     ),
     Product(
       // uproductid: '3',
@@ -109,7 +111,7 @@ class Product extends Equatable {
       productdescription: 'Lorem ipsum inscapeduc lorem lorem',
       productprice: 300,
       productname: 'Slashing',
-      productcreatedAt: DateTime.now(),
+      // productcreatedAt: DateTime.now(),
     ),
     Product(
       // uproductid: '4',
@@ -117,7 +119,7 @@ class Product extends Equatable {
       productdescription: 'Lorem ipsum inscapeduc lorem lorem',
       productprice: 100,
       productname: 'Laundry',
-      productcreatedAt: DateTime.now(),
+      // productcreatedAt: DateTime.now(),
     )
   ];
 }

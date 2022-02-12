@@ -4,7 +4,6 @@ import 'package:twendekaziclient/controllers/product_controller.dart';
 import 'package:twendekaziclient/models/product_model.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 
-
 class NewProductScreen extends StatelessWidget {
   NewProductScreen({Key? key}) : super(key: key);
   // final ProductController productController = Get.find();
@@ -71,14 +70,15 @@ class NewProductScreen extends StatelessWidget {
                       onPressed: () {
                         // print(productController.newProduct);
                         database.addProduct(Product(
-                            productname: productController.newProduct['id'],
-                            productid:
-                                int.parse(productController.newProduct['id']),
-                            productdescription:
-                                productController.newProduct['description'],
-                            productprice: productController.newProduct['price'],
-                            productcreatedAt: productController
-                                .newProduct['productcreatedAt']));
+                          productname: productController.newProduct['id'],
+                          productid:
+                              int.parse(productController.newProduct['id']),
+                          productdescription:
+                              productController.newProduct['description'],
+                          productprice: productController.newProduct['price'],
+                          // productcreatedAt: productController
+                          // .newProduct['productcreatedAt']
+                        ));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.black,
