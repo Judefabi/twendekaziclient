@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twendekaziclient/controllers/product_controller.dart';
+import 'package:twendekaziclient/controllers/order_controller.dart';
 import 'package:twendekaziclient/model/order_model.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 
-class NewProductScreen extends StatelessWidget {
-  NewProductScreen({Key? key}) : super(key: key);
-  // final ProductController productController = Get.find();
-  final ProductController productController = Get.put(ProductController());
+class NewOrderScreen extends StatelessWidget {
+  NewOrderScreen({Key? key}) : super(key: key);
+  // final orderController orderController = Get.find();
+  final OrderController orderController = Get.put(OrderController());
 
   DatabaseService database = DatabaseService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Service'),
+        title: const Text('New Job'),
         backgroundColor: Colors.black,
       ),
       body: Padding(
@@ -23,62 +23,41 @@ class NewProductScreen extends StatelessWidget {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 100,
-                  child: Card(
-                      margin: EdgeInsets.zero,
-                      color: Colors.black,
-                      child: Row(
-                        children: const [
-                          // IconButton(
-                          //   onPressed: () {
-                          //     Get.to(() => const NewProductScreen());
-                          //   },
-                          //   icon: const Icon(
-                          //     Icons.add_circle_outline,
-                          //     color: Colors.white,
-                          //   ),
-                          // ),
-                          Text(
-                            'Create Service',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      )),
-                ),
+                
                 const SizedBox(height: 20),
                 const Text(
-                  'Service Description:',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  'Order Overview:',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                _buildTextFormField('Product Name', 'name', productController),
-                _buildTextFormField('Product ID', 'id', productController),
-                _buildTextFormField(
-                    'Product Description', 'description', productController),
+                _buildTextFormField('Order title', 'name', orderController),
                 const SizedBox(height: 10),
-                _buildSlider('Price', 'price', productController,
-                    productController.price),
+                // _buildTextFormField('order ID', 'id', orderController),
+                _buildTextFormField(
+                    'Order Description', 'description', orderController),
+                const SizedBox(height: 10),
+                const Text('Requirements', style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold
+                )),
+                _buildTextFormField(
+                    'Order Details', 'details', orderController),
+                  const SizedBox(height: 10,),
+                const Text('Select Category', style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold
+                )),
+                const OrderCategory(),
+                const SizedBox(height: 20),
+                const Text('Select Price', style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold
+                )),
+                _buildSlider('Price', 'price', orderController,
+                    orderController.price),
                 const SizedBox(
                   height: 50,
                 ),
                 Center(
                   child: ElevatedButton(
                       onPressed: () {
-                        // print(productController.newProduct);
-                        // database.addProduct(Product(
-                        //   productname: productController.newProduct['id'],
-                        //   productid:
-                        //       int.parse(productController.newProduct['id']),
-                        //   productdescription:
-                        //       productController.newProduct['description'],
-                        //   productprice: productController.newProduct['price'],
-                        //   // productcreatedAt: productController
-                        //   // .newProduct['productcreatedAt']
-                        // ));
+                        
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.black,
@@ -96,7 +75,7 @@ class NewProductScreen extends StatelessWidget {
   }
 
   Row _buildSlider(String title, String name,
-      ProductController productController, double? controllerValue) {
+      OrderController orderController, double? controllerValue) {
     return Row(
       children: [
         const SizedBox(
@@ -110,7 +89,7 @@ class NewProductScreen extends StatelessWidget {
           child: Slider(
             value: (controllerValue == null) ? 0 : controllerValue,
             onChanged: (value) {
-              productController.newProduct.update(
+              orderController.newOrder.update(
                 name,
                 (_) => value,
                 ifAbsent: () => value,
@@ -130,14 +109,94 @@ class NewProductScreen extends StatelessWidget {
   TextFormField _buildTextFormField(
     String hintText,
     String name,
-    ProductController productController,
+    OrderController orderController,
   ) {
     return TextFormField(
       decoration: InputDecoration(hintText: hintText),
       onChanged: (value) {
-        productController.newProduct
+        orderController.newOrder
             .update(name, (_) => value, ifAbsent: () => value);
       },
     );
   }
+
+  
+
 }
+
+
+class OrderCategory extends StatefulWidget {
+  const OrderCategory({Key? key}) : super(key: key);
+
+  @override
+  _OrderCategoryState createState() => _OrderCategoryState();
+}
+
+class _OrderCategoryState extends State<OrderCategory> {
+  @override
+  Widget build(BuildContext context){
+    var ordercategory;
+    return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Wrap(
+        spacing: 10.0,
+        children: [
+          // 4
+          ChoiceChip(
+            // 5
+            selectedColor: Colors.black,
+            // 6
+            selected: ordercategory == Ordercategory.laundry,
+            label: const Text(
+              'Laundry',
+              style: TextStyle(color: Colors.white),),
+            // 7
+            onSelected: (selected) {
+              setState(() => ordercategory = Ordercategory.laundry);
+            },),
+          ChoiceChip(
+            selectedColor: Colors.black,
+            selected: ordercategory == Ordercategory.plumbing,
+            label: const Text(
+              'Plumbing',
+              style: TextStyle(color: Colors.white),),
+            onSelected: (selected) {
+              setState(() => ordercategory = Ordercategory.plumbing);
+            },),
+          ChoiceChip(
+            selectedColor: Colors.black,
+            selected: ordercategory == Ordercategory.electrical,
+            label: const Text(
+              'Electrical',
+              style: TextStyle(color: Colors.white),),
+            onSelected: (selected) {
+              setState(() => ordercategory = Ordercategory.electrical);
+            },),
+          ChoiceChip(
+            selectedColor: Colors.black,
+            selected: ordercategory == Ordercategory.carrepair,
+            label: const Text(
+              'Car Repair',
+              style: TextStyle(color: Colors.white),),
+            onSelected: (selected) {
+              setState(() => ordercategory = Ordercategory.carrepair);
+            },),
+        ],)
+    ],);
+  }
+}
+
+
+
+// print(orderController.neworder);
+                        // database.addorder(order(
+                        //   ordername: orderController.neworder['id'],
+                        //   orderid:
+                        //       int.parse(orderController.neworder['id']),
+                        //   orderdescription:
+                        //       orderController.neworder['description'],
+                        //   orderprice: orderController.neworder['price'],
+                        //   // ordercreatedAt: orderController
+                        //   // .neworder['ordercreatedAt']
+                        // ));

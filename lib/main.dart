@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:twendekaziclient/404screens/empty_jobs_page.dart';
+import 'package:twendekaziclient/screens/new_order.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const EmptyJobsScreen(),
+      home:  NewOrderScreen(),
       getPages: [
         GetPage(name: '/orders', page: () =>  MyOrdersScreen()),
         GetPage(name: '/notifications', page: () => const NotificationScreen()),

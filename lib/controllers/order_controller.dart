@@ -3,23 +3,20 @@ import 'package:twendekaziclient/model/order_model.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 
 class OrderController extends GetxController {
+  // List<Product> products = Product.products.obs;
   final DatabaseService database = DatabaseService();
 
   var orders = <Order>[].obs;
-  var pendingOrders = <Order>[].obs;
 
   @override
   void onInit() {
-    // orders.bindStream(database.getOrders());
-    // pendingOrders.bindStream(database.getpendingOrders());
+    // orders.bindStream(database.getProducts());
     super.onInit();
   }
 
-  // void updateOrder(
-  //   Order order,
-  //   String field,
-  //   bool value,
-  // ) {
-  //   database.updateOrder(order, field, value);
-  // }
+  var newOrder = {}.obs;
+
+  get price => newOrder['price'];
+
+
 }

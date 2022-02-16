@@ -3,12 +3,15 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = const Uuid();
 
 enum Ordercategory {laundry, plumbing, electrical, carrepair,}
 
 class Order extends Equatable {
   final String ordername;
-  final String orderid;
+  String orderid = uuid.v1() ;
   final String orderdescription;
   double orderprice;
   final String orderdetails;
@@ -18,7 +21,7 @@ class Order extends Equatable {
 
   Order({
     required this.ordername,
-    required this.orderid,
+    required this.orderid ,
     required this.orderdescription,
     this.orderprice = 0,
     required this.orderdetails,
