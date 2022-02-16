@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twendekaziclient/models/wallet_model.dart';
+import 'package:twendekaziclient/model/wallet_model.dart';
 import 'package:intl/intl.dart';
 
 class WalletScreen extends StatefulWidget {

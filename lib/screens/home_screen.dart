@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:twendekaziclient/screens/new_product.dart';
 import 'login_screen.dart';
-import 'package:twendekaziclient/models/user_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  // final Service services;
   @override
   void initState() {
     super.initState();
@@ -36,172 +36,166 @@ class _HomeScreenState extends State<HomeScreen> {
     const urlImage =
         'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            );
-          },
-        ),
-        title: const Text('...',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
-        centerTitle: true,
-        elevation: 0.0,
-        foregroundColor: Colors.black,
-        actions: [
-          const CircleAvatar(
-              radius: 20, backgroundImage: NetworkImage(urlImage)),
-          const SizedBox(
-            width: 10,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.playlist_play_rounded),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(32))),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('Twendekazi',
-                          style: TextStyle(
-                              fontSize: 25,
-                              // fontWeight: FontWeight.w500,
-                              color: Colors.black87)),
-                      const SizedBox(height: 5),
-                      const Text('--the kazi home',
-                          style: TextStyle(
-                              fontSize: 36,
-                              // fontWeight: FontWeight.w500,
-                              color: Colors.black)),
-                      const SizedBox(height: 30),
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(244, 243, 243, 1)),
-                        child: const TextField(
+        // appBar:
+        backgroundColor: Colors.grey[300],
+        body: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const SizedBox(
+              height: 75,
+            ),
+            //app bar
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Container(
+                height: 50,
+                child: const Icon(
+                  Icons.menu,
+                  size: 40,
+                ),
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey[200],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+
+            //Job Categories
+            const Padding(
+              padding: EdgeInsets.only(left: 25),
+              child: Text(
+                'Your Kazi Home',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            //search area
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Row(children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Container(
+                            height: 30,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            child: const Icon(
+                              Icons.search_rounded,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          child: TextField(
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                prefixIcon:
-                                    Icon(Icons.search, color: Colors.black87),
-                                hintText: 'Find a service provider',
-                                hintStyle: TextStyle(
-                                    color: Colors.grey, fontSize: 15))),
-                      ),
-                      const SizedBox(height: 25),
-                    ],
-                  )),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Last used Services',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          TextButton(
-                            style: const ButtonStyle(),
-                            onPressed: () {
-                              Get.to(() => NewProductScreen());
-                            },
-                            child: const Text(
-                              'Request Service',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black54),
-                            ),
+                                hintText: "Search for service providers"),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        height: 200,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            // itemCount: Service.services.length,
-                            itemBuilder: (context, index) {
-                              return const SizedBox(
-                                  height: 100, child: Text("Card"));
-                            }),
-                      )
-                    ]),
+                        ),
+                      ]),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    height: 50,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(12)),
+                    child: const Icon(
+                      Icons.filter_alt_outlined,
+                      color: Colors.white,
+                    ),
+                  )
+                ])),
+            const SizedBox(
+              height: 50,
+            ),
+
+            //Job Categories
+            const Padding(
+              padding: EdgeInsets.only(left: 25),
+              child: Text(
+                'Categories For You',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
-              const SizedBox(
-                height: 20,
+            ),
+            const SizedBox(height: 25),
+            Container(
+              height: 160,
+              child: Container(),
+              // StreamBuilder<List<Service>>(
+              //   stream: getServices(),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.hasError) {
+              //       return Text('Something went wrong ${snapshot.error}');
+              //     } else if (snapshot.hasData) {
+              //       final services = snapshot.data!;
+              //       return ListView(
+              //           scrollDirection: Axis.horizontal,
+              //           children: services.map(ServicesCard).toList());
+              //     } else {
+              //       return const Center(child: CircularProgressIndicator());
+              //     }
+              //   },
+              // ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+
+            //Job Categories
+            const Padding(
+              padding: EdgeInsets.only(left: 25),
+              child: Text(
+                'Top Rated Providers',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Top Providers',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          TextButton(
-                            style: const ButtonStyle(),
-                            onPressed: () {},
-                            child: const Text(
-                              'Browse All',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black54),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        height: 500,
-                        child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return const SizedBox(
-                                  height: 100, child: Text("Card Two"));
-                            }),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ]),
-              )
-            ]),
-      ),
-    );
+            ),
+            // const SizedBox(height: 10),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, bottom: 10.0, right: 10.0),
+                child: Container(
+                  height: 500,
+                  child: Container(),
+                  // StreamBuilder<List<Order>>(
+                  //   stream: getOrders(),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.hasError) {
+                  //       return Text('Something went wrong ${snapshot.error}');
+                  //     } else if (snapshot.hasData) {
+                  //       final orders = snapshot.data!;
+                  //       return ListView(
+                  //           shrinkWrap: true,
+                  //           physics: const NeverScrollableScrollPhysics(),
+                  //           children: orders.map(topProviders).toList());
+                  //     } else {
+                  //       return const Center(child: CircularProgressIndicator());
+                  //     }
+                  //   },
+                  // ),
+                ),
+              ),
+            )
+          ]),
+        ));
   }
 
   // the logout function
@@ -210,102 +204,142 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
+
+  // Stream<List<Order>> getOrders() {
+  //   return _firebaseFirestore.collection('orders').snapshots().map(
+  //       (snapshot) =>
+  //           snapshot.docs.map((doc) => Order.fromJson(doc.data())).toList());
+  // }
+
+  // Stream<List<Service>> getServices() {
+  //   return _firebaseFirestore
+  //       .collection('providers')
+  //       .doc('3NwtKCoqq4TzT9OSMJxbxMMAJ283')
+  //       .collection('services')
+  //       .snapshots()
+  //       .map((snapshot) =>
+  //           snapshot.docs.map((doc) => Service.fromJson(doc.data())).toList());
+  // }
+
+  Widget topProviders(Order Order) {
+    return InkWell(
+      onTap: () {},
+      child: Card(
+        child: Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(6)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                                padding: const EdgeInsets.all(12),
+                                color: Colors.grey[300],
+                                height: 50,
+                                child: Container())),
+                        const SizedBox(width: 10),
+                        Column(children: [
+                          const Text(
+                            'Order.Ordername',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '{Order.Orderid}',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                            ),
+                          )
+                        ]),
+                      ]),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Container(
+                              padding: const EdgeInsets.all(5),
+                              color: Colors.green[300],
+                              child: const Text(
+                                'Kshs.{Order.Orderprice}',
+                                style: TextStyle(color: Colors.white),
+                              )))
+                    ]))),
+      ),
+    );
+  }
+
+  getOrders() {}
+
+  getServices() {}
+
+  // Widget ServicesCard(Service services) {
+  //   return InkWell(
+  //       onTap: () {},
+  //       child: Padding(
+  //         padding: const EdgeInsets.only(left: 25.0),
+  //         child: ClipRRect(
+  //           borderRadius: BorderRadius.circular(12),
+  //           child: Container(
+  //               width: 250,
+  //               padding: const EdgeInsets.all(12.0),
+  //               color: Colors.grey[800],
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   Row(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                       children: [
+  //                         Container(
+  //                             height: 60,
+  //                             child: Container(
+  //                               color: Colors.white,
+  //                             )),
+  //                         ClipRRect(
+  //                           borderRadius: BorderRadius.circular(5),
+  //                           child: Container(
+  //                             padding: const EdgeInsets.all(8.0),
+  //                             child: Text(
+  //                               services.serviceexpertise,
+  //                               style: const TextStyle(color: Colors.white),
+  //                             ),
+  //                             color: Colors.grey[500],
+  //                           ),
+  //                         )
+  //                       ]),
+  //                   Padding(
+  //                     padding: const EdgeInsets.all(0.0),
+  //                     child: Text(
+  //                       services.servicename,
+  //                       style: const TextStyle(
+  //                         fontWeight: FontWeight.bold,
+  //                         fontSize: 22,
+  //                         color: Colors.white,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Text(
+  //                     'Kshs. ${services.servicerate}',
+  //                     style: const TextStyle(
+  //                       fontWeight: FontWeight.bold,
+  //                       fontSize: 16,
+  //                       color: Colors.white,
+  //                     ),
+  //                   )
+  //                 ],
+  //               )),
+  //         ),
+  //       ));
+  // }
 }
-
-// class categoryItem extends StatelessWidget {
-//   const categoryItem({
-//     Key? key,
-//     required this.services,
-//   }) : super(key: key);
-
-//   final Service services;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AspectRatio(
-//       aspectRatio: 2.4 / 3,
-//       child: Container(
-//           margin: const EdgeInsets.only(right: 15.0),
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.circular(20),
-//             image: const DecorationImage(
-//                 fit: BoxFit.cover, image: AssetImage('assets/logo.png')),
-//           ),
-//           child: Container(
-//             alignment: Alignment.topCenter,
-//             padding: const EdgeInsets.only(top: 10),
-//             child: Text(
-//               services.servicename,
-//               style: const TextStyle(
-//                   fontSize: 16,
-//                   color: Colors.black,
-//                   fontWeight: FontWeight.bold),
-//             ),
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               borderRadius: BorderRadius.circular(20),
-//               gradient: LinearGradient(
-//                   begin: Alignment.bottomRight,
-//                   stops: const [
-//                     0.1,
-//                     0.9
-//                   ],
-//                   colors: [
-//                     Colors.black.withOpacity(.8),
-//                     Colors.black.withOpacity(.1)
-//                   ]),
-//             ),
-//           )),
-//     );
-//   }
-// }
-
-// class recentPosts extends StatelessWidget {
-//   const recentPosts({
-//     Key? key,
-//     required this.product,
-//   }) : super(key: key);
-
-//   final Product product;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: InkWell(
-//         onTap: () {},
-//         child: ListTile(
-//           leading: const CircleAvatar(
-//             child: Text('TK'),
-//             backgroundColor: Colors.black87,
-//           ),
-//           title: Text(product.productname,
-//               style: const TextStyle(
-//                   color: Colors.black,
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 16)),
-//           subtitle: Text(product.productdescription,
-//               style: const TextStyle(color: Colors.black45, fontSize: 16)),
-//           trailing: Column(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             children: [
-//               Text('Kshs. ${product.productprice}',
-//                   style: const TextStyle(
-//                       color: Colors.black,
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 16)),
-//               Text(DateFormat('dd-MM-yy').format(product.productcreatedAt),
-//                   style: const TextStyle(
-//                       fontSize: 12,
-//                       fontWeight: FontWeight.bold,
-//                       color: Colors.black87)),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 
 // ActionChip(

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:twendekazi_provider/model/order_model.dart';
-import 'package:twendekazi_provider/services/database_service.dart';
+import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/services/database_service.dart';
 
 class OrderController extends GetxController {
   final DatabaseService database = DatabaseService();
@@ -10,7 +10,7 @@ class OrderController extends GetxController {
 
   @override
   void onInit() {
-    orders.bindStream(database.getOrders());
+    // orders.bindStream(database.getOrders());
     // pendingOrders.bindStream(database.getpendingOrders());
     super.onInit();
   }

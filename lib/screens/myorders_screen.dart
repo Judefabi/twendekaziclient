@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twendekaziclient/controllers/product_controller.dart';
-import 'package:twendekaziclient/models/product_model.dart';
-import 'package:twendekaziclient/screens/new_product.dart';
+import 'package:twendekaziclient/controllers/Order_controller.dart';
+import 'package:twendekaziclient/model/order_model.dart';
+
 // import 'package:twendekaziclient/screens/orders_screen.dart';
 // import 'package:twendekaziclient/screens/orders_screen_check.dart';
 
 class MyOrdersScreen extends StatelessWidget {
   MyOrdersScreen({Key? key}) : super(key: key);
-  final ProductController productController = Get.put(ProductController());
+  final OrderController orderController = Get.put(OrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MyOrdersScreen extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Get.to(() => NewProductScreen());
+                            // Get.to(() => NewOrderScreen());
                           },
                           icon: const Icon(
                             Icons.add_circle_outline,
@@ -61,12 +61,12 @@ class MyOrdersScreen extends StatelessWidget {
               Expanded(
                 child: Obx(
                   () => ListView.builder(
-                    itemCount: productController.products.length,
+                    itemCount: orderController.orders.length,
                     itemBuilder: (context, index) {
                       return SizedBox(
                           height: 210,
-                          child: ProductCard(
-                            product: productController.products[index],
+                          child: OrderCard(
+                            order: orderController.orders[index],
                             index: index,
                           ));
                     },
@@ -79,14 +79,14 @@ class MyOrdersScreen extends StatelessWidget {
   }
 }
 
-class ProductCard extends StatelessWidget {
-  final Product product;
+class OrderCard extends StatelessWidget {
+  final Order order;
   final int index;
 
-  ProductCard({Key? key, required this.product, required this.index})
+  OrderCard({Key? key, required this.order, required this.index})
       : super(key: key);
 
-  final ProductController productController = Get.find();
+  final OrderController orderController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -95,42 +95,42 @@ class ProductCard extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Text(product.productname,
-                  style: const TextStyle(
+              const Text('order.ordername',
+                  style: TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
-              Text(product.productdescription,
-                  style: const TextStyle(
+              const Text('order.orderdescription',
+                  style: TextStyle(
                       fontSize: 12, fontWeight: FontWeight.normal)),
               Expanded(
                 child: Row(
-                  children: [
-                    const SizedBox(
+                  children: const [
+                    SizedBox(
                       width: 50,
                       child: Text('Price',
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                     ),
-                    SizedBox(
-                      width: 175,
-                      child: Slider(
-                        value: product.productprice,
-                        onChanged: (value) {
-                          productController.updateProductPrice(
-                              index, product, value);
-                        },
-                        min: 0,
-                        max: 500,
-                        divisions: 10,
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.black12,
-                        onChangeEnd: (value) {
-                          productController.saveNewProductPrice(
-                              product, 'price', value);
-                        },
-                      ),
-                    ),
-                    Text('\$${product.productprice.toStringAsFixed(1)}',
-                        style: const TextStyle(
+                    // SizedBox(
+                    //   width: 175,
+                    //   child: Slider(
+                    //     value: 'order.orderprice',
+                    //     onChanged: (value) {
+                    //       // OrderController.updateOrderPrice(
+                    //       //     index, Order, value);
+                    //     },
+                    //     min: 0,
+                    //     max: 500,
+                    //     divisions: 10,
+                    //     activeColor: Colors.black,
+                    //     inactiveColor: Colors.black12,
+                    //     onChangeEnd: (value) {
+                    //       // OrderController.saveNewOrderPrice(
+                    //       //     Order, 'price', value);
+                    //     },
+                    //   ),
+                    // ),
+                    Text('{Order.Orderprice.toStringAsFixed(1)}',
+                        style: TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold))
                   ],
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twendekaziclient/controllers/product_controller.dart';
-import 'package:twendekaziclient/models/product_model.dart';
+import 'package:twendekaziclient/model/order_model.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 
 class NewProductScreen extends StatelessWidget {
@@ -69,16 +69,16 @@ class NewProductScreen extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () {
                         // print(productController.newProduct);
-                        database.addProduct(Product(
-                          productname: productController.newProduct['id'],
-                          productid:
-                              int.parse(productController.newProduct['id']),
-                          productdescription:
-                              productController.newProduct['description'],
-                          productprice: productController.newProduct['price'],
-                          // productcreatedAt: productController
-                          // .newProduct['productcreatedAt']
-                        ));
+                        // database.addProduct(Product(
+                        //   productname: productController.newProduct['id'],
+                        //   productid:
+                        //       int.parse(productController.newProduct['id']),
+                        //   productdescription:
+                        //       productController.newProduct['description'],
+                        //   productprice: productController.newProduct['price'],
+                        //   // productcreatedAt: productController
+                        //   // .newProduct['productcreatedAt']
+                        // ));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.black,
