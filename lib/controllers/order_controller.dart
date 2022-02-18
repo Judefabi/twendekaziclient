@@ -4,7 +4,7 @@ import 'package:twendekaziclient/services/database_service.dart';
 
 class OrderController extends GetxController {
   // List<Product> products = Product.products.obs;
-  final DatabaseService database = DatabaseService();
+  // final DatabaseService database = DatabaseService();
 
   var orders = <Order>[].obs;
 

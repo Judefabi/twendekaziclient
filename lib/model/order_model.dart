@@ -1,32 +1,30 @@
 // import 'dart:convert';
-import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:uuid/uuid.dart';
 
-var uuid = const Uuid();
-
-enum Ordercategory {laundry, plumbing, electrical, carrepair,}
+// var uuid = const Uuid();
 
 class Order extends Equatable {
   final String ordername;
-  String orderid = uuid.v1() ;
+  final String orderid;
   final String orderdescription;
   double orderprice;
   final String orderdetails;
-  final DateTime ordercreatedAt;
-  final Ordercategory ordercategory;
-
+  DateTime ordercreatedAt = DateTime.now();
+  final String ordercategory;
+  final String orderownerid;
+  DateTime orderdate;
 
   Order({
     required this.ordername,
-    required this.orderid ,
+    required this.orderid,
     required this.orderdescription,
     this.orderprice = 0,
     required this.orderdetails,
     required this.ordercreatedAt,
     required this.ordercategory,
+    required this.orderownerid,
+    required this.orderdate,
   });
 
   @override
@@ -38,8 +36,10 @@ class Order extends Equatable {
       orderprice,
       orderdetails,
       ordercreatedAt,
-      ordercategory
-    ]; 
+      ordercategory,
+      orderownerid,
+      orderdate,
+    ];
   }
 
   Order copyWith({
@@ -49,45 +49,44 @@ class Order extends Equatable {
     double? orderprice,
     String? orderdetails,
     DateTime? ordercreatedAt,
-    Ordercategory? ordercategory,
+    String? ordercategory,
+    String? orderownerid,
+    DateTime? orderdate,
   }) {
     return Order(
-        ordername: ordername ?? this.ordername,
-        orderid: orderid ?? this.orderid,
-        orderdescription: orderdescription ?? this.orderdescription,
-        orderprice: orderprice ?? this.orderprice,
-        orderdetails: orderdetails ?? this.orderdetails,
-        ordercreatedAt: ordercreatedAt ?? this.ordercreatedAt,
-        ordercategory: ordercategory ?? this.ordercategory
-        );
+      ordername: ordername ?? this.ordername,
+      orderid: orderid ?? this.orderid,
+      orderdescription: orderdescription ?? this.orderdescription,
+      orderprice: orderprice ?? this.orderprice,
+      orderdetails: orderdetails ?? this.orderdetails,
+      ordercreatedAt: ordercreatedAt ?? this.ordercreatedAt,
+      ordercategory: ordercategory ?? this.ordercategory,
+      orderownerid: orderownerid ?? this.orderownerid,
+      orderdate: orderdate ?? this.orderdate,
+    );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'ordername': ordername,
-      'orderid': orderid,
-      'orderdescription': orderdescription,
-      'orderprice': orderprice,
-      'orderdetails': orderdetails,
-      'ordercreatedAt': ordercreatedAt,
-      'ordercategory' : ordercategory,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'ordername': ordername,
+        'orderid': orderid,
+        'orderdescription': orderdescription,
+        'orderprice': orderprice,
+        'orderdetails': orderdetails,
+        'ordercreatedAt': ordercreatedAt,
+        'ordercategory': ordercategory,
+        'orderownerid': orderownerid,
+        'orderdate': orderdate,
+      };
 
-  factory Order.fromSnapshot(DocumentSnapshot snap) {
-    return Order(
-        ordername: snap['ordername'],
-        orderid: snap['orderid'],
-        orderdescription: snap['orderdescription'],
-        orderprice: snap['orderprice'],
-        orderdetails: snap['orderdetails'],
-        ordercreatedAt: snap['ordercreatedAt'],
-        ordercategory: snap['ordercategory']
-        );
-  }
-  String toJson() => json.encode(toMap());
-
-  
-
-  
+  static Order fromJson(Map<String, dynamic> json) => Order(
+        ordername: json['ordername'],
+        orderid: json['orderid'],
+        orderdescription: json['orderdescription'],
+        orderprice: json['orderprice'],
+        orderdetails: json['orderdetails'],
+        ordercreatedAt: json['ordercreatedAt'],
+        ordercategory: json['ordercategory'],
+        orderownerid: json['orderownerid'],
+        orderdate: json['orderdate'],
+      );
 }
