@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:twendekaziclient/404screens/empty_jobs_page.dart';
+import 'package:twendekaziclient/screens/google_maps_markers.dart';
 import 'package:twendekaziclient/screens/new_order.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:twendekaziclient/screens/myorders_screen.dart';
 import 'package:twendekaziclient/screens/notifications_screen.dart';
 import 'package:twendekaziclient/screens/profile_screen.dart';
 import 'package:twendekaziclient/screens/wallet_screen.dart';
-
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  NewOrderScreen(),
+      home:  GoogleMapScreen(),
       getPages: [
-        GetPage(name: '/orders', page: () =>  MyOrdersScreen()),
+        GetPage(name: '/orders', page: () => const MyOrdersScreen()),
         GetPage(name: '/notifications', page: () => const NotificationScreen()),
         GetPage(name: '/profile', page: () => const ProfileScreen()),
         GetPage(name: '/wallet', page: () => const WalletScreen())

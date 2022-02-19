@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twendekaziclient/screens/google_maps_markers.dart';
 import 'package:twendekaziclient/screens/home_screen.dart';
 import 'package:twendekaziclient/screens/notifications_screen.dart';
 import 'package:twendekaziclient/screens/myorders_screen.dart';
@@ -56,9 +57,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   buildBody() {
     switch (_currentIndex) {
       case 1:
-        return MyOrdersScreen();
+        return const MyOrdersScreen();
       case 2:
-        return const NotificationScreen();
+        return GoogleMapScreen();
       case 3:
         return const ProfileScreen();
       case 4:
