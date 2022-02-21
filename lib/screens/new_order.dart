@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twendekaziclient/controllers/order_controller.dart';
 import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/screens/myorders_screen.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -98,7 +99,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
                           padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                           minWidth: MediaQuery.of(context).size.width * 0.5,
                           onPressed: () async {
-                            String orderid = const Uuid().v1();
+                            // String orderid = const Uuid().v1();
                             User? user = _auth.currentUser;
                             // _saveOrder();
                             final order = Order(
@@ -349,10 +350,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
     final json = order.toJson();
     await orderPost
         .set(json)
-        .then(
-            (value) => Fluttertoast.showToast(msg: 'Order Posted Successfully'))
-        .catchError((error) =>
-            Fluttertoast.showToast(msg: "Failed to add order: $error"));
+        .then((value) => {
+                  Fluttertoast.showToast(msg: "Order posted Successfully"),
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const MyOrdersScreen())),
+                });
   }
 }
 

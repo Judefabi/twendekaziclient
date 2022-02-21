@@ -1,12 +1,13 @@
 // import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-
+import 'package:uuid/uuid.dart';
 // var uuid = const Uuid();
 
 class Order extends Equatable {
   final String ordername;
-  final String orderid;
+  // final String orderid;
+  String orderid = const Uuid().v1();
   final String orderdescription;
   double orderprice;
   final String orderdetails;

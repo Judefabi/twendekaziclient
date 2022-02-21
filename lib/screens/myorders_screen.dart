@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twendekaziclient/controllers/order_controller.dart';
 import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/screens/new_order.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 
 class MyOrdersScreen extends StatefulWidget {
@@ -17,6 +18,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Get.to(const NewOrderScreen());
+            },
+            backgroundColor: Colors.black,
+            child: Icon(Icons.post_add_outlined, color: Colors.white)),
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: Builder(

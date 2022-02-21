@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:twendekaziclient/model/order_model.dart';
 import 'package:twendekaziclient/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:twendekaziclient/screens/new_order.dart';
+import 'package:twendekaziclient/screens/providers_screen.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,6 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
     const urlImage =
         'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
     return Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          Get.to(const NewOrderScreen());
+        },
+        backgroundColor: Colors.black,
+        child: const Icon(Icons.work_rounded, color: Colors.white)
+        ),
         // appBar:
         backgroundColor: Colors.grey[300],
         body: SingleChildScrollView(
@@ -160,12 +169,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             //Job Categories
-            const Padding(
-              padding: EdgeInsets.only(left: 25),
-              child: Text(
-                'Top Rated Providers',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: Text(
+                    'Top Rated',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Get.to(const ProvidersScreen());
+                    },
+                    child: const Text('See All',
+                        style: TextStyle(fontSize: 16, color: Colors.green))),
+              ],
             ),
             // const SizedBox(height: 10),
             SingleChildScrollView(
@@ -173,8 +194,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(
                     left: 15.0, bottom: 10.0, right: 10.0),
                 child: Container(
-                  height: 500,
-                  child: Container(),
+                  height: 700,
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      return Column(children: [
+                        const topProvidersCard(),
+                        const SizedBox(height: 10)
+                      ]);
+                    },
+                  ),
                   // StreamBuilder<List<Order>>(
                   //   stream: getOrders(),
                   //   builder: (context, snapshot) {
@@ -339,6 +369,116 @@ class _HomeScreenState extends State<HomeScreen> {
   //         ),
   //       ));
   // }
+}
+
+class topProvidersCard extends StatelessWidget {
+  const topProvidersCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+          height: 200,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              gradient:
+                  const LinearGradient(colors: [Colors.white, Colors.grey]),
+              boxShadow: const [BoxShadow(color: Colors.grey)]),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                  Widget>[
+            Row(children: <Widget>[
+              Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: const BoxDecoration(
+                      color: Colors.black, shape: BoxShape.circle),
+                  child: const CircleAvatar(
+                      maxRadius: 30.0,
+                      backgroundImage: NetworkImage(
+                        "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                      ))),
+              const SizedBox(width: 21),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                              child: Text("Jane Doe",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.clip,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6!
+                                      .apply(
+                                          fontWeightDelta: 2,
+                                          color: Colors.black))),
+                          const SizedBox(width: 15),
+                          GestureDetector(
+                            child: const Icon(Icons.map, color: Colors.black),
+                            onTap: () {},
+                          )
+                        ]),
+                    const SizedBox(height: 10),
+                    Text("Janedoe2001@gmail.com",
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .apply(color: Colors.black))
+                  ]))
+            ]),
+            const SizedBox(height: 25),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    Text('123',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6!
+                            .apply(color: Colors.black)),
+                    const SizedBox(height: 3),
+                    Text("Jobs Assigned",
+                        style: TextStyle(color: Colors.grey[800]))
+                  ]),
+                  Column(children: <Widget>[
+                    Text('119',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6!
+                            .apply(color: Colors.black)),
+                    const SizedBox(height: 3),
+                    Text("Completed", style: TextStyle(color: Colors.grey[800]))
+                  ]),
+                  // Column(children: <Widget>[
+                  //   Text('3',
+                  //       style: Theme.of(context)
+                  //           .textTheme
+                  //           .headline6!
+                  //           .apply(color: Colors.black)),
+                  //   const SizedBox(height: 3),
+                  //   Text("Likes", style: TextStyle(color: Colors.grey[300]))
+                  // ]),
+                  Column(children: <Widget>[
+                    Text('98%',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6!
+                            .apply(color: Colors.black)),
+                    const SizedBox(height: 3),
+                    Text("Rating", style: TextStyle(color: Colors.grey[800]))
+                  ])
+                ])
+          ])),
+    );
+  }
 }
 
 

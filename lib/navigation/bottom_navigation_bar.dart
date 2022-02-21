@@ -31,23 +31,23 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.apps),
-            title: Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.work_rounded),
-            title: Text('Wallet'),
+            label: 'Wallet',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            title: Text('Notifications'),
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Profile'),
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet),
-            title: Text('Wallet'),
+            label: 'Wallet',
           ),
         ],
       ),
@@ -59,7 +59,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 1:
         return const MyOrdersScreen();
       case 2:
-        return GoogleMapScreen();
+        return const NotificationScreen();
       case 3:
         return const ProfileScreen();
       case 4:

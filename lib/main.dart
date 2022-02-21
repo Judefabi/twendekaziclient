@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:twendekaziclient/404screens/empty_jobs_page.dart';
 import 'package:twendekaziclient/screens/google_maps_markers.dart';
+import 'package:twendekaziclient/screens/home_screen.dart';
+import 'package:twendekaziclient/screens/login_screen.dart';
 import 'package:twendekaziclient/screens/new_order.dart';
+import 'package:twendekaziclient/screens/providers_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  GoogleMapScreen(),
+      home: const LoginScreen(),
       getPages: [
         GetPage(name: '/orders', page: () => const MyOrdersScreen()),
         GetPage(name: '/notifications', page: () => const NotificationScreen()),

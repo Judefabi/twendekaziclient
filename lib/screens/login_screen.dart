@@ -1,3 +1,4 @@
+import 'package:twendekaziclient/navigation/bottom_navigation_bar.dart';
 import 'package:twendekaziclient/screens/home_screen.dart';
 import 'package:twendekaziclient/screens/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      color: Colors.black,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -117,10 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     SizedBox(
                         height: 200,
-                        child: Image.asset(
-                          "assets/logo.png",
-                          fit: BoxFit.contain,
-                        )),
+                        ),
                     SizedBox(height: 45),
                     emailField,
                     SizedBox(height: 25),
@@ -141,9 +139,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           RegistrationScreen()));
                             },
                             child: Text(
-                              "SignUp",
+                              "Sign Up",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),
@@ -168,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                      MaterialPageRoute(builder: (context) => BottomNavBar())),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

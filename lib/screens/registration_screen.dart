@@ -165,7 +165,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      color: Colors.black,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -186,7 +186,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.red),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // passing this to our root
             Navigator.of(context).pop();
@@ -207,10 +207,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: <Widget>[
                     SizedBox(
                         height: 180,
-                        child: Image.asset(
-                          "assets/logo.png",
-                          fit: BoxFit.contain,
-                        )),
+                        ),
                     SizedBox(height: 45),
                     firstNameField,
                     SizedBox(height: 20),
@@ -287,7 +284,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
-    
+
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
