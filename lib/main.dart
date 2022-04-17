@@ -1,31 +1,28 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:twendekaziclient/404screens/empty_jobs_page.dart';
-import 'package:twendekaziclient/screens/google_maps_markers.dart';
-import 'package:twendekaziclient/screens/home_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twendekaziclient/navigation/bottom_navigation_bar.dart';
+import 'package:twendekaziclient/onboardingscreens/onboarding_screens.dart';
+import 'package:twendekaziclient/onboardingscreens/page_one.dart';
+import 'package:twendekaziclient/screens/complete_job.dart';
 import 'package:twendekaziclient/screens/login_screen.dart';
-import 'package:twendekaziclient/screens/new_order.dart';
-import 'package:twendekaziclient/screens/providers_screen.dart';
+import 'package:twendekaziclient/screens/myorders_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twendekaziclient/navigation/bottom_navigation_bar.dart';
-import 'package:twendekaziclient/screens/myorders_screen.dart';
-import 'package:twendekaziclient/screens/notifications_screen.dart';
-import 'package:twendekaziclient/screens/profile_screen.dart';
-import 'package:twendekaziclient/screens/wallet_screen.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//       // options: DefaultFirebaseOptions.currentPlatform,
-//       );
-//   runApp(const MyApp());
-// }
+//check if first installation using local preferences
+int? isviewed;
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      // statusBarColor: Colors.transparent,
+      ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isviewed = prefs.getInt('onBoard');
   runApp(const MyApp());
 }
 
@@ -41,12 +38,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const LoginScreen(),
-      getPages: [
-        GetPage(name: '/orders', page: () => const MyOrdersScreen()),
-        GetPage(name: '/notifications', page: () => const NotificationScreen()),
-        GetPage(name: '/profile', page: () => const ProfileScreen()),
-        GetPage(name: '/wallet', page: () => const WalletScreen())
-      ],
     );
   }
 }

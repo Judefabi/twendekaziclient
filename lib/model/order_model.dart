@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 // var uuid = const Uuid();
 
-class Order extends Equatable {
+class Order {
   final String ordername;
   // final String orderid;
   String orderid = const Uuid().v1();
@@ -15,6 +15,8 @@ class Order extends Equatable {
   final String ordercategory;
   final String orderownerid;
   DateTime orderdate;
+  String providerid;
+  bool isAssigned;
 
   Order({
     required this.ordername,
@@ -26,46 +28,9 @@ class Order extends Equatable {
     required this.ordercategory,
     required this.orderownerid,
     required this.orderdate,
+    required this.providerid,
+    required this.isAssigned,
   });
-
-  @override
-  List<Object> get props {
-    return [
-      ordername,
-      orderid,
-      orderdescription,
-      orderprice,
-      orderdetails,
-      ordercreatedAt,
-      ordercategory,
-      orderownerid,
-      orderdate,
-    ];
-  }
-
-  Order copyWith({
-    String? ordername,
-    String? orderid,
-    String? orderdescription,
-    double? orderprice,
-    String? orderdetails,
-    DateTime? ordercreatedAt,
-    String? ordercategory,
-    String? orderownerid,
-    DateTime? orderdate,
-  }) {
-    return Order(
-      ordername: ordername ?? this.ordername,
-      orderid: orderid ?? this.orderid,
-      orderdescription: orderdescription ?? this.orderdescription,
-      orderprice: orderprice ?? this.orderprice,
-      orderdetails: orderdetails ?? this.orderdetails,
-      ordercreatedAt: ordercreatedAt ?? this.ordercreatedAt,
-      ordercategory: ordercategory ?? this.ordercategory,
-      orderownerid: orderownerid ?? this.orderownerid,
-      orderdate: orderdate ?? this.orderdate,
-    );
-  }
 
   Map<String, dynamic> toJson() => {
         'ordername': ordername,
@@ -77,6 +42,8 @@ class Order extends Equatable {
         'ordercategory': ordercategory,
         'orderownerid': orderownerid,
         'orderdate': orderdate,
+        'providerid': providerid,
+        'isAssigned': isAssigned,
       };
 
   static Order fromJson(Map<String, dynamic> json) => Order(
@@ -85,9 +52,11 @@ class Order extends Equatable {
         orderdescription: json['orderdescription'],
         orderprice: json['orderprice'],
         orderdetails: json['orderdetails'],
-        ordercreatedAt: json['ordercreatedAt'],
+        ordercreatedAt: json['ordercreatedAt'].toDate(),
         ordercategory: json['ordercategory'],
         orderownerid: json['orderownerid'],
-        orderdate: json['orderdate'],
+        orderdate: json['orderdate'].toDate(),
+        providerid: json['providerid'],
+        isAssigned: json['isAssigned'],
       );
 }

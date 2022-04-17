@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twendekaziclient/controllers/order_controller.dart';
 import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/model/user_model.dart';
 import 'package:twendekaziclient/screens/myorders_screen.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 import 'package:uuid/uuid.dart';
@@ -101,18 +102,21 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
                           onPressed: () async {
                             // String orderid = const Uuid().v1();
                             User? user = _auth.currentUser;
+                            UserModel loggedInUser = UserModel();
                             // _saveOrder();
                             final order = Order(
-                                ordername: titleFieldController.text,
-                                orderid: orderid,
-                                orderdescription:
-                                    descriptionFieldController.text,
-                                orderdetails: detailsFieldController.text,
-                                ordercreatedAt: _currentDate,
-                                ordercategory: selectedOrderCategory,
-                                orderdate: _orderDate,
-                                orderownerid: user!.uid,
-                                orderprice: priceValue);
+                              ordername: titleFieldController.text,
+                              orderid: orderid,
+                              orderdescription: descriptionFieldController.text,
+                              orderdetails: detailsFieldController.text,
+                              ordercreatedAt: _currentDate,
+                              ordercategory: selectedOrderCategory,
+                              orderdate: _orderDate,
+                              orderownerid: user!.uid,
+                              orderprice: priceValue,
+                              providerid: 'twendekazi',
+                              isAssigned: false,
+                            );
 
                             postOrder(order);
                           },
@@ -144,7 +148,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
             const SizedBox(height: 10),
             // _buildTextFormField('order ID', 'id', orderController),
             _buildDescriptionField(
-              'Order Description',
+              'Phone Number',
             ),
             const SizedBox(height: 10),
             const Text('Requirements',
@@ -348,13 +352,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
         FirebaseFirestore.instance.collection('orders').doc(orderid);
 
     final json = order.toJson();
-    await orderPost
-        .set(json)
-        .then((value) => {
-                  Fluttertoast.showToast(msg: "Order posted Successfully"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const MyOrdersScreen())),
-                });
+    await orderPost.set(json).then((value) => {
+          Fluttertoast.showToast(msg: "Order posted Successfully"),
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const MyOrdersScreen())),
+        });
   }
 }
 

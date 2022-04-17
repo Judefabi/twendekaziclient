@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/model/providers_model.dart';
 import 'package:twendekaziclient/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,14 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
     const urlImage =
         'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          Get.to(const NewOrderScreen());
-        },
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.work_rounded, color: Colors.white)
-        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Get.to(const NewOrderScreen());
+            },
+            backgroundColor: Colors.black,
+            child: const Icon(Icons.work_rounded, color: Colors.white)),
         // appBar:
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -54,40 +55,50 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 75,
             ),
             //app bar
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: Container(
-                height: 50,
-                child: const Icon(
-                  Icons.menu,
-                  size: 40,
-                ),
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.grey[200],
-                ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 20.0),
+            //   child: Container(
+            //     height: 50,
+            //     child: const Icon(
+            //       Icons.menu,
+            //       size: 40,
+            //     ),
+            //     padding: const EdgeInsets.all(10.0),
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white),
+            //       borderRadius: BorderRadius.circular(12),
+            //       color: Colors.grey[200],
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(
+              height: 25,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Text(
+                'Twendekazi',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
               ),
             ),
             const SizedBox(
-              height: 25,
+              height: 15,
             ),
 
             //Job Categories
             const Padding(
-              padding: EdgeInsets.only(left: 25),
+              padding: EdgeInsets.only(left: 20),
               child: Text(
-                'Your Kazi Home',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                '-- your Kazi Home',
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 25),
               ),
             ),
             const SizedBox(
-              height: 25,
+              height: 55,
             ),
             //search area
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(children: [
                   Expanded(
                     child: Container(
@@ -138,34 +149,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
             //Job Categories
             const Padding(
-              padding: EdgeInsets.only(left: 25),
+              padding: EdgeInsets.only(left: 20),
               child: Text(
-                'Categories For You',
+                'For You',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
             const SizedBox(height: 25),
-            Container(
-              height: 160,
-              child: Container(),
-              // StreamBuilder<List<Service>>(
-              //   stream: getServices(),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasError) {
-              //       return Text('Something went wrong ${snapshot.error}');
-              //     } else if (snapshot.hasData) {
-              //       final services = snapshot.data!;
-              //       return ListView(
-              //           scrollDirection: Axis.horizontal,
-              //           children: services.map(ServicesCard).toList());
-              //     } else {
-              //       return const Center(child: CircularProgressIndicator());
-              //     }
-              //   },
-              // ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Container(
+                height: 250,
+                // decoration: BoxDecoration(color: Colors.black),
+                child: ListView(scrollDirection: Axis.horizontal, children: [
+                  _categoriesCard(
+                      'https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bGF1bmRyeXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+                      'Laundry'),
+                  _categoriesCard(
+                      'https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGx1bWJpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+                      'Plumbing'),
+                  _categoriesCard(
+                      'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjd8fGVsZWN0cmljYWx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+                      'Electrical'),
+                  _categoriesCard(
+                      'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YXV0byUyMHJlcGFpcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+                      'Auto Repair'),
+                ]),
+              ),
             ),
             const SizedBox(
-              height: 50,
+              height: 25,
             ),
 
             //Job Categories
@@ -174,56 +187,48 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(left: 25),
+                  padding: EdgeInsets.only(left: 20),
                   child: Text(
                     'Top Rated',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
                 ),
-                TextButton(
-                    onPressed: () {
-                      Get.to(const ProvidersScreen());
-                    },
-                    child: const Text('See All',
-                        style: TextStyle(fontSize: 16, color: Colors.green))),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: TextButton(
+                      onPressed: () {
+                        Get.to(const ProvidersScreen());
+                      },
+                      child: const Text('See All',
+                          style: TextStyle(fontSize: 16, color: Colors.green))),
+                ),
               ],
             ),
             // const SizedBox(height: 10),
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, bottom: 10.0, right: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Container(
-                  height: 700,
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return Column(children: [
-                        const topProvidersCard(),
-                        const SizedBox(height: 10)
-                      ]);
+                  height: 300,
+                  child: StreamBuilder<List<Provider>>(
+                    stream: getProviders(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        final providers = snapshot.data!;
+                        return ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          children: providers.map(_profileCard).toList(),
+                        );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
                     },
                   ),
-                  // StreamBuilder<List<Order>>(
-                  //   stream: getOrders(),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.hasError) {
-                  //       return Text('Something went wrong ${snapshot.error}');
-                  //     } else if (snapshot.hasData) {
-                  //       final orders = snapshot.data!;
-                  //       return ListView(
-                  //           shrinkWrap: true,
-                  //           physics: const NeverScrollableScrollPhysics(),
-                  //           children: orders.map(topProviders).toList());
-                  //     } else {
-                  //       return const Center(child: CircularProgressIndicator());
-                  //     }
-                  //   },
-                  // ),
                 ),
               ),
-            )
+            ),
           ]),
         ));
   }
@@ -235,23 +240,13 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
-  // Stream<List<Order>> getOrders() {
-  //   return _firebaseFirestore.collection('orders').snapshots().map(
-  //       (snapshot) =>
-  //           snapshot.docs.map((doc) => Order.fromJson(doc.data())).toList());
-  // }
+  Stream<List<Provider>> getProviders() {
+    return _firebaseFirestore.collection('providers').snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Provider.fromJson(doc.data())).toList());
+  }
 
-  // Stream<List<Service>> getServices() {
-  //   return _firebaseFirestore
-  //       .collection('providers')
-  //       .doc('3NwtKCoqq4TzT9OSMJxbxMMAJ283')
-  //       .collection('services')
-  //       .snapshots()
-  //       .map((snapshot) =>
-  //           snapshot.docs.map((doc) => Service.fromJson(doc.data())).toList());
-  // }
-
-  Widget topProviders(Order Order) {
+  Widget _profileCard(Provider provider) {
     return InkWell(
       onTap: () {},
       child: Card(
@@ -263,6 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(6)),
                 child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
@@ -275,16 +271,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Container())),
                         const SizedBox(width: 10),
                         Column(children: [
-                          const Text(
-                            'Order.Ordername',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                provider.firstName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                provider.secondName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '{Order.Orderid}',
+                            provider.email,
                             style: TextStyle(
                               color: Colors.grey[600],
                             ),
@@ -297,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(5),
                               color: Colors.green[300],
                               child: const Text(
-                                'Kshs.{Order.Orderprice}',
+                                'Top Rated',
                                 style: TextStyle(color: Colors.white),
                               )))
                     ]))),
@@ -305,181 +315,33 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  getOrders() {}
-
-  getServices() {}
-
-  // Widget ServicesCard(Service services) {
-  //   return InkWell(
-  //       onTap: () {},
-  //       child: Padding(
-  //         padding: const EdgeInsets.only(left: 25.0),
-  //         child: ClipRRect(
-  //           borderRadius: BorderRadius.circular(12),
-  //           child: Container(
-  //               width: 250,
-  //               padding: const EdgeInsets.all(12.0),
-  //               color: Colors.grey[800],
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   Row(
-  //                       crossAxisAlignment: CrossAxisAlignment.start,
-  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                       children: [
-  //                         Container(
-  //                             height: 60,
-  //                             child: Container(
-  //                               color: Colors.white,
-  //                             )),
-  //                         ClipRRect(
-  //                           borderRadius: BorderRadius.circular(5),
-  //                           child: Container(
-  //                             padding: const EdgeInsets.all(8.0),
-  //                             child: Text(
-  //                               services.serviceexpertise,
-  //                               style: const TextStyle(color: Colors.white),
-  //                             ),
-  //                             color: Colors.grey[500],
-  //                           ),
-  //                         )
-  //                       ]),
-  //                   Padding(
-  //                     padding: const EdgeInsets.all(0.0),
-  //                     child: Text(
-  //                       services.servicename,
-  //                       style: const TextStyle(
-  //                         fontWeight: FontWeight.bold,
-  //                         fontSize: 22,
-  //                         color: Colors.white,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   Text(
-  //                     'Kshs. ${services.servicerate}',
-  //                     style: const TextStyle(
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 16,
-  //                       color: Colors.white,
-  //                     ),
-  //                   )
-  //                 ],
-  //               )),
-  //         ),
-  //       ));
-  // }
-}
-
-class topProvidersCard extends StatelessWidget {
-  const topProvidersCard({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-          height: 200,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient:
-                  const LinearGradient(colors: [Colors.white, Colors.grey]),
-              boxShadow: const [BoxShadow(color: Colors.grey)]),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                  Widget>[
-            Row(children: <Widget>[
-              Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: const BoxDecoration(
-                      color: Colors.black, shape: BoxShape.circle),
-                  child: const CircleAvatar(
-                      maxRadius: 30.0,
-                      backgroundImage: NetworkImage(
-                        "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                      ))),
-              const SizedBox(width: 21),
-              Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                              child: Text("Jane Doe",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.clip,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .apply(
-                                          fontWeightDelta: 2,
-                                          color: Colors.black))),
-                          const SizedBox(width: 15),
-                          GestureDetector(
-                            child: const Icon(Icons.map, color: Colors.black),
-                            onTap: () {},
-                          )
-                        ]),
-                    const SizedBox(height: 10),
-                    Text("Janedoe2001@gmail.com",
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1!
-                            .apply(color: Colors.black))
-                  ]))
-            ]),
-            const SizedBox(height: 25),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(children: <Widget>[
-                    Text('123',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .apply(color: Colors.black)),
-                    const SizedBox(height: 3),
-                    Text("Jobs Assigned",
-                        style: TextStyle(color: Colors.grey[800]))
-                  ]),
-                  Column(children: <Widget>[
-                    Text('119',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .apply(color: Colors.black)),
-                    const SizedBox(height: 3),
-                    Text("Completed", style: TextStyle(color: Colors.grey[800]))
-                  ]),
-                  // Column(children: <Widget>[
-                  //   Text('3',
-                  //       style: Theme.of(context)
-                  //           .textTheme
-                  //           .headline6!
-                  //           .apply(color: Colors.black)),
-                  //   const SizedBox(height: 3),
-                  //   Text("Likes", style: TextStyle(color: Colors.grey[300]))
-                  // ]),
-                  Column(children: <Widget>[
-                    Text('98%',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .apply(color: Colors.black)),
-                    const SizedBox(height: 3),
-                    Text("Rating", style: TextStyle(color: Colors.grey[800]))
-                  ])
-                ])
-          ])),
-    );
+  Widget _categoriesCard(String imageUrl, String servicename) {
+    return Card(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Column(children: [
+          Container(
+              height: 200,
+              width: 200,
+              child: Ink.image(
+                  image: NetworkImage(
+                    imageUrl,
+                  ),
+                  height: 150,
+                  fit: BoxFit.cover)),
+          Container(
+              padding: const EdgeInsets.all(5),
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Text(servicename,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18)))
+        ]));
   }
 }
+
+
 
 
 // ActionChip(

@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twendekaziclient/controllers/order_controller.dart';
 import 'package:twendekaziclient/model/order_model.dart';
+import 'package:twendekaziclient/model/providers_model.dart';
 import 'package:twendekaziclient/screens/google_maps_markers.dart';
 import 'package:twendekaziclient/services/database_service.dart';
 
@@ -15,148 +17,112 @@ class ProvidersScreen extends StatefulWidget {
 }
 
 class _ProvidersScreenState extends State<ProvidersScreen> {
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Get.back();
-                },
-              );
-            },
-          ),
-          title: const Text('Service Providers',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              )),
-          centerTitle: true,
-          elevation: 0.0,
-          foregroundColor: Colors.black,
-          actions: [
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.drag_indicator_sharp))
-          ],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Get.to(GoogleMapScreen());
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Get.back();
+              },
+            );
           },
-          backgroundColor: Colors.black,
-          icon: const Icon(Icons.map, color: Colors.white),
-          label: const Text('Map',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-          foregroundColor: Colors.white,
         ),
-        // bottomNavigationBar: BottomAppBar(
-        //     child: Container(
-        //         padding:
-        //             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        //         child: Row(
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             children: [
-        //               Material(
-        //                 elevation: 5,
-        //                 borderRadius: BorderRadius.circular(10),
-        //                 color: Colors.black,
-        //                 child: MaterialButton(
-        //                     padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        //                     minWidth: MediaQuery.of(context).size.width * 0.5,
-        //                     onPressed: () async {},
-        //                     // updateLocation;
-        //                     // Get.to(const LoginScreen());
-        //                     child: Row(children: const [
-        //                       Text(
-        //                         "VIEW MAP",
-        //                         textAlign: TextAlign.center,
-        //                         style: TextStyle(
-        //                             fontSize: 16,
-        //                             color: Colors.white,
-        //                             fontWeight: FontWeight.bold),
-        //                       ),
-        //                       SizedBox(
-        //                         width: 10,
-        //                       ),
-        //                       Icon(Icons.map, color: Colors.white)
-        //                     ])),
-        //               ),
-        //             ]))),
-        body: SingleChildScrollView(
-            child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Row(children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Container(
-                            height: 30,
-                            decoration: BoxDecoration(color: Colors.grey[200]),
-                            child: const Icon(
-                              Icons.search_rounded,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        const Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Search service providers"),
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[800],
-                        borderRadius: BorderRadius.circular(12)),
-                    child: const Icon(
-                      Icons.filter_alt_outlined,
-                      color: Colors.white,
-                    ),
-                  )
-                ])),
-            const SizedBox(height: 30),
-            _profileCard(),
-            const SizedBox(height: 10),
-            _profileCard(),
-            const SizedBox(height: 10),
-            _profileCard(),
-            const SizedBox(height: 10),
-            _profileCard(),
-            const SizedBox(height: 10),
-            _profileCard(),
-            const SizedBox(height: 10),
-          ]),
-        )));
+        title: const Text('Service Providers',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
+        centerTitle: true,
+        elevation: 0.0,
+        foregroundColor: Colors.black,
+        actions: [
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.drag_indicator_sharp))
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(GoogleMapScreen());
+        },
+        backgroundColor: Colors.black,
+        icon: const Icon(Icons.map, color: Colors.white),
+        label: const Text('Map',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+        foregroundColor: Colors.white,
+      ),
+      // bottomNavigationBar: BottomAppBar(
+      //     child: Container(
+      //         padding:
+      //             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      //         child: Row(
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Material(
+      //                 elevation: 5,
+      //                 borderRadius: BorderRadius.circular(10),
+      //                 color: Colors.black,
+      //                 child: MaterialButton(
+      //                     padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+      //                     minWidth: MediaQuery.of(context).size.width * 0.5,
+      //                     onPressed: () async {},
+      //                     // updateLocation;
+      //                     // Get.to(const LoginScreen());
+      //                     child: Row(children: const [
+      //                       Text(
+      //                         "VIEW MAP",
+      //                         textAlign: TextAlign.center,
+      //                         style: TextStyle(
+      //                             fontSize: 16,
+      //                             color: Colors.white,
+      //                             fontWeight: FontWeight.bold),
+      //                       ),
+      //                       SizedBox(
+      //                         width: 10,
+      //                       ),
+      //                       Icon(Icons.map, color: Colors.white)
+      //                     ])),
+      //               ),
+      //             ]))),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: StreamBuilder<List<Provider>>(
+          stream: getProviders(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong ${snapshot.error}');
+            } else if (snapshot.hasData) {
+              final providers = snapshot.data!;
+              return ListView(
+                children: providers.map(_profileCard).toList(),
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
+    );
   }
 
-  Widget _profileCard() {
+  Stream<List<Provider>> getProviders() {
+    return _firebaseFirestore.collection('providers').snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Provider.fromJson(doc.data())).toList());
+  }
+
+  Widget _profileCard(Provider provider) {
     return InkWell(
       onTap: () {},
       child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
           height: 200,
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
@@ -187,15 +153,27 @@ class _ProvidersScreenState extends State<ProvidersScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Expanded(
-                              child: Text("Jane Doe",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.clip,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .apply(
-                                          fontWeightDelta: 2,
-                                          color: Colors.black))),
+                              child: Row(children: [
+                            Text(provider.firstName,
+                                maxLines: 2,
+                                overflow: TextOverflow.clip,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .apply(
+                                        fontWeightDelta: 2,
+                                        color: Colors.black)),
+                            const SizedBox(width: 5),
+                            Text(provider.secondName,
+                                maxLines: 2,
+                                overflow: TextOverflow.clip,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .apply(
+                                        fontWeightDelta: 2,
+                                        color: Colors.black))
+                          ])),
                           const SizedBox(width: 15),
                           GestureDetector(
                             child: const Icon(Icons.map, color: Colors.black),
@@ -203,7 +181,7 @@ class _ProvidersScreenState extends State<ProvidersScreen> {
                           )
                         ]),
                     const SizedBox(height: 10),
-                    Text("Janedoe2001@gmail.com",
+                    Text(provider.email,
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!

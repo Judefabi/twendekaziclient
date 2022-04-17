@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twendekaziclient/screens/google_maps_markers.dart';
-import 'package:twendekaziclient/screens/home_screen.dart';
+import 'package:twendekaziclient/screens/home/home_screen.dart';
+// import 'package:twendekaziclient/screens/home_screen.dart';
 import 'package:twendekaziclient/screens/notifications_screen.dart';
 import 'package:twendekaziclient/screens/myorders_screen.dart';
 import 'package:twendekaziclient/screens/profile_screen.dart';
@@ -37,18 +38,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
             icon: Icon(Icons.work_rounded),
             label: 'Wallet',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Notifications',
-          ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Wallet',
-          ),
+          
         ],
       ),
     );
@@ -59,14 +54,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 1:
         return const MyOrdersScreen();
       case 2:
-        return const NotificationScreen();
-      case 3:
-        return const ProfileScreen();
-      case 4:
-        return const WalletScreen();
+        return ProfileScreen();
+      // case 4:
+      //   return const WalletScreen();
 
       case 0:
-        return const HomeScreen();
+        return HomeScreen();
     }
   }
 }

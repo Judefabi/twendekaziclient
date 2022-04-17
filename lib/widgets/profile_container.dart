@@ -1,7 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:twendekaziclient/model/user_model.dart';
 
-class ProfileContainer extends StatelessWidget {
+class ProfileContainer extends StatefulWidget {
+  @override
+  State<ProfileContainer> createState() => _ProfileContainerState();
+}
+
+class _ProfileContainerState extends State<ProfileContainer> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  User? user = FirebaseAuth.instance.currentUser;
+
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +62,8 @@ class ProfileContainer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Expanded(
-                              child: Text("Jane Doe",
+                              child: Text(
+                                  "${loggedInUser.firstName} ${loggedInUser.secondName}",
                                   maxLines: 2,
                                   overflow: TextOverflow.clip,
                                   style: Theme.of(context)
@@ -51,7 +79,7 @@ class ProfileContainer extends StatelessWidget {
                           )
                         ]),
                     const SizedBox(height: 10),
-                    Text("Janedoe2001@gmail.com",
+                    Text("${loggedInUser.email}",
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!
@@ -69,7 +97,7 @@ class ProfileContainer extends StatelessWidget {
                             .headline6!
                             .apply(color: Colors.white)),
                     const SizedBox(height: 3),
-                    Text("Jobs Posted",
+                    Text("Jobs assigned",
                         style: TextStyle(color: Colors.grey[300]))
                   ]),
                   Column(children: <Widget>[
@@ -79,7 +107,7 @@ class ProfileContainer extends StatelessWidget {
                             .headline6!
                             .apply(color: Colors.white)),
                     const SizedBox(height: 3),
-                    Text("Assigned", style: TextStyle(color: Colors.grey[300]))
+                    Text("Completed", style: TextStyle(color: Colors.grey[300]))
                   ]),
                   // Column(children: <Widget>[
                   //   Text('3',
@@ -97,7 +125,7 @@ class ProfileContainer extends StatelessWidget {
                             .headline6!
                             .apply(color: Colors.white)),
                     const SizedBox(height: 3),
-                    Text("Satisfaction Rate",
+                    Text("Success Rate",
                         style: TextStyle(color: Colors.grey[300]))
                   ])
                 ])
